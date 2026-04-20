@@ -2,8 +2,9 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>The Matrix of Renai</title>
+    <title>System Entrance</title>
     <style>
+        /* 重置邊界並設定黑底 */
         body {
             margin: 0;
             padding: 0;
@@ -11,34 +12,44 @@
             background-color: black;
             font-family: 'Courier New', Courier, monospace;
         }
+        
+        /* 設定亂碼背景的畫布 */
         canvas {
             display: block;
         }
+
+        /* 極簡風格的對話框 */
         .center-box {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            background: rgba(0, 0, 0, 0.75); 
+            background: #ffffff; /* 純白底色，讓黑色字體清楚顯示 */
             padding: 40px;
-            border: 1px solid #00ff00;
-            border-radius: 10px;
-            box-shadow: 0 0 20px #00ff00;
+            border: 2px solid #000000; /* 黑色邊框 */
         }
 
+        /* 移除所有特效，純黑色的字 */
         h1 {
-            color: #00ff00;
+            color: #000000; 
             font-size: 28px;
-            text-shadow: 0 0 8px #00ff00;
             margin-bottom: 20px;
+            font-weight: bold;
         }
 
         p {
-            color: #ffffff;
+            color: #000000;
             font-size: 18px;
             line-height: 1.5;
+            font-weight: bold;
         }
+
+        /* 想找線索？
+            這裡只有網頁的外殼。
+            真正的秘密，藏在開發者與系統「對話」的地方。
+            (提示：看看上方的標籤頁，Console / 主控台 在哪裡？)
+        */
     </style>
 </head>
 <body>
@@ -46,27 +57,31 @@
     <canvas id="matrix"></canvas>
 
     <div class="center-box">
-        <h1>恭喜你發現了樂奈想說的東西</h1>
+        <h1>恭喜你發現了這裡</h1>
         <p>下一關的線索就在這裡<br>找找看吧。</p>
     </div>
 
     <script>
+        // === 黑白亂碼瀑布特效 (JavaScript) ===
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*樂奈';
+        // 移除了「樂奈」，只留下純粹的英數與符號
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*';
         const fontSize = 16;
         const columns = canvas.width / fontSize;
         const drops = Array.from({ length: columns }).fill(1);
 
         function draw() {
+            // 留下黑色的殘影
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = '#0F0'; 
+            // 改為純白色的亂碼
+            ctx.fillStyle = '#ffffff'; 
             ctx.font = fontSize + 'px monospace';
 
             for (let i = 0; i < drops.length; i++) {
@@ -81,13 +96,122 @@
         }
         setInterval(draw, 33);
 
-        console.log("%c诶你怎麼在亂看網頁內碼好色喔", "color: #ff55ff; font-size: 20px; font-weight: bold;");
-        console.log("%c但你都到這裡了就給你答案吧", "color: #ffffff; font-size: 14px;");
-        console.log("%c第二關通關代碼：_2xYpQ", "color: #00ff00; font-size: 18px; background: #222; padding: 4px 8px; border-radius: 4px;");
-        console.log("%c", "font-size: 10px;"); // 空行
-        console.log("%c下一關的線索好像不小心掉到南極火山口被糊掉加密了", "color: #ffaa00; font-size: 14px;");
-        console.log("%c線索是: VGhlIENvZGU6IGM2TmJNMg==", "color: #ff5555; font-size: 18px; font-weight: bold; background: #330000; padding: 4px;");
-        console.log("%c然後我看到那邊的摩洛哥豹用 == 的眼神看著我 不知道甚麼意思诶", "color: #aaaaaa; font-size: 14px; font-style: italic;");
+        // === 【真正的線索：隱藏在 Console 中，無任何特效】 ===
+        console.log("诶你怎麼在亂看網頁內碼好色喔");
+        console.log("但你都到這裡了就給你答案吧");
+        console.log("第二關通關代碼：_2xYpQ");
+        console.log("");
+        console.log("下一關的線索好像不小心掉到南極火山口被糊掉加密了");
+        console.log("線索是: VGhlIENvZGU6IGM2TmJNMg==");
+        console.log("然後我看到那邊的摩洛哥豹用 == 的眼神看著我 不知道甚麼意思诶");
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>System Entrance</title>
+    <style>
+        /* 重置邊界並設定黑底 */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+            background-color: black;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        /* 設定亂碼背景的畫布 */
+        canvas {
+            display: block;
+        }
+
+        /* 極簡風格的對話框 */
+        .center-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: #ffffff; /* 純白底色，讓黑色字體清楚顯示 */
+            padding: 40px;
+            border: 2px solid #000000; /* 黑色邊框 */
+        }
+
+        /* 移除所有特效，純黑色的字 */
+        h1 {
+            color: #000000; 
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        p {
+            color: #000000;
+            font-size: 18px;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+
+        /* 想找線索？
+            這裡只有網頁的外殼。
+            真正的秘密，藏在開發者與系統「對話」的地方。
+            (提示：看看上方的標籤頁，Console / 主控台 在哪裡？)
+        */
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix"></canvas>
+
+    <div class="center-box">
+        <h1>恭喜你發現了這裡</h1>
+        <p>下一關的線索就在這裡<br>找找看吧。</p>
+    </div>
+
+    <script>
+        // === 黑白亂碼瀑布特效 (JavaScript) ===
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // 移除了「樂奈」，只留下純粹的英數與符號
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*';
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array.from({ length: columns }).fill(1);
+
+        function draw() {
+            // 留下黑色的殘影
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 改為純白色的亂碼
+            ctx.fillStyle = '#ffffff'; 
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 33);
+
+        // === 【真正的線索：隱藏在 Console 中，無任何特效】 ===
+        console.log("诶你怎麼在亂看網頁內碼好色喔");
+        console.log("但你都到這裡了就給你答案吧");
+        console.log("第二關通關代碼：_2xYpQ");
+        console.log("");
+        console.log("下一關的線索好像不小心掉到南極火山口被糊掉加密了");
+        console.log("線索是: VGhlIENvZGU6IGM2TmJNMg==");
+        console.log("然後我看到那邊的摩洛哥豹用 == 的眼神看著我 不知道甚麼意思诶");
     </script>
 </body>
 </html>
