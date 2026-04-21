@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Auth - Logic Gate</title>
+    <style>
+        body {
+            background-color: #0a192f; /* 深藍色科技感底色 */
+            color: #64ffda; /* 螢光青色 */
+            font-family: 'Consolas', 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .terminal {
+            background-color: #112240;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8);
+            max-width: 650px;
+            width: 100%;
+        }
+        h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #233554;
+            padding-bottom: 10px;
+            color: #ccd6f6;
+            letter-spacing: 2px;
+        }
+        .code-block {
+            background-color: #020c1b;
+            padding: 20px;
+            border-left: 4px solid #64ffda;
+            margin: 20px 0;
+            white-space: pre;
+            overflow-x: auto;
+            color: #a8b2d1;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        /* C++ 語法高亮顏色 */
+        .keyword { color: #c678dd; } 
+        .type { color: #56b6c2; }
+        .number { color: #d19a66; }
+        .comment { color: #5c6370; font-style: italic; }
+
+        .input-area {
+            display: flex;
+            margin-top: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        input {
+            background-color: #0a192f;
+            border: 1px solid #64ffda;
+            color: #64ffda;
+            padding: 12px;
+            font-size: 16px;
+            font-family: 'Consolas', monospace;
+            flex-grow: 1;
+            outline: none;
+            min-width: 200px;
+        }
+        input:focus {
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+        }
+        button {
+            background-color: transparent;
+            color: #64ffda;
+            border: 1px solid #64ffda;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        button:hover {
+            background-color: rgba(100, 255, 218, 0.15);
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            min-height: 24px;
+            line-height: 1.6;
+        }
+        a {
+            color: #ffaa00;
+            text-decoration: none;
+            border-bottom: 1px dashed #ffaa00;
+        }
+        a:hover {
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="terminal">
+        <h2>System Auth // 邏輯閘認證</h2>
+        <p>你已經接近系統核心。請閱讀以下 C++ 授權模組，推理出能讓 <code>check_auth</code> 回傳 <code>true</code> 的正確密碼（整數 x）。</p>
+        
+        <div class="code-block"><span class="type">bool</span> <span class="keyword">check_auth</span>(<span class="type">int</span> x) {
+    <span class="comment">// 條件一</span>
+    <span class="keyword">if</span> (x > <span class="number">100</span> && x < <span class="number">200</span>) {
+        
+        <span class="comment">// 條件二</span>
+        <span class="keyword">if</span> (x % <span class="number">2</span> != <span class="number">0</span> && (x / <span class="number">10</span>) % <span class="number">10</span> == <span class="number">3</span>) {
+            
+            <span class="comment">// 條件三</span>
+            <span class="keyword">if</span> (x % <span class="number">7</span> == <span class="number">0</span>) {
+                <span class="keyword">return true</span>;
+            }
+        }
+    }
+    <span class="keyword">return false</span>;
+}</div>
+
+        <div class="input-area">
+            <input type="number" id="passwordInput" placeholder="請輸入 x 的值..." autocomplete="off">
+            <button onclick="verify()">[ 執行認證 ]</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function verify() {
+            const input = document.getElementById("passwordInput").value;
+            const resultDiv = document.getElementById("result");
+            
+            // 正確答案是 133
+            if (input === "133") {
+                resultDiv.style.color = "#64ffda";
+                resultDiv.innerHTML = "【認證成功】恭喜你走到這裡了。<br>第八關通關代碼：1pZ7kL<br><br>【第九關線索】<br>系統深處傳來了機器的低語。電腦的母語只有兩種狀態。<br>前往深海吧：<a href='deep.html'>deep.html</a>";
+            } else if (input === "") {
+                resultDiv.style.color = "#ff3333";
+                resultDiv.innerHTML = "請輸入數字。";
+            } else {
+                resultDiv.style.color = "#ff3333";
+                resultDiv.innerHTML = "【認證失敗】邏輯不符，拒絕存取。";
+            }
+        }
+
+        // 支援按下 Enter 鍵直接送出
+        document.getElementById("passwordInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                verify();
+            }
+        });
+    </script>
+</body>
+</html>
