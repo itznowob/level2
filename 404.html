@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>404 - 迷失方向</title>
+    <style>
+        body {
+            background-color: #050505;
+            color: #ff3333; /* 錯誤的紅色 */
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            margin-top: 10%;
+        }
+        h1 {
+            font-size: 5em;
+            margin-bottom: 0;
+            text-shadow: 2px 2px 5px #ff0000;
+        }
+        .content-box {
+            border: 1px solid #333;
+            padding: 30px;
+            display: inline-block;
+            background-color: #111;
+            margin-top: 20px;
+        }
+        .code {
+            color: #00ff00;
+            font-size: 1.2em;
+            font-weight: bold;
+            background: #222;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .hint {
+            color: #888;
+            font-size: 0.9em;
+            margin-top: 30px;
+            font-style: italic;
+        }
+        /* 讓圖片看起來像破舊的檔案 */
+        img {
+            max-width: 300px;
+            border: 2px dashed #555;
+            margin-top: 20px;
+            opacity: 0.8;
+            transition: 0.3s;
+        }
+        img:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>404</h1>
+    <h2>PAGE NOT FOUND</h2>
+
+    <div class="content-box">
+        <p>你離開了原本的道路，進入了錯誤的系統之中。</p>
+        <p>但有時候，迷路正是尋找真相的必經之路。</p>
+        <br>
+        <p>系統崩潰日誌已記錄你的足跡，<br>錯誤代碼（第五關通關密碼）： <span class="code">f9A7kP</span></p>
+    </div>
+
+    <div class="hint">
+        <p>【第六關線索：殘留的影像】</p>
+        <p>工程師在修復這個錯誤空間時，不小心遺留了一張照片。</p>
+        <p>將這張照片<strong>下載（另存圖片）</strong>到你的電腦裡。</p>
+        <p>有的時候數位照片不只有畫面，它還偷偷記錄了拍攝時的<strong>一些細節</strong>。</p>
+        
+        <a href="memory.jpg" download>
+            <img src="memory.jpg" alt="點擊或右鍵下載圖片">
+        </a>
+    </div>
+</body>
+</html>
