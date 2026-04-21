@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Sea Core // 系統最深處</title>
+    <style>
+        body {
+            background-color: #020b14; /* 極深的海藍色 */
+            color: #4db8ff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            flex-direction: column;
+        }
+        
+        /* 深海聲納掃描特效 */
+        body::after {
+            content: "";
+            position: absolute;
+            width: 200vw;
+            height: 200vh;
+            background: radial-gradient(circle, transparent 20%, #020b14 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            background: rgba(2, 11, 20, 0.8);
+            padding: 40px;
+            border: 1px solid #004466;
+            box-shadow: 0 0 30px rgba(0, 136, 255, 0.1);
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 2em;
+            letter-spacing: 5px;
+            color: #80ccff;
+            text-shadow: 0 0 10px #4db8ff;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #66a3cc;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* 儀表板區域 */
+        .dashboard {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #001a33;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .target-freq { color: #ff4d4d; }
+        .current-freq { color: #00ff88; }
+
+        /* 8-bit 按鈕區域 */
+        .bit-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .bit-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bit-value {
+            font-size: 0.8em;
+            color: #336699;
+            margin-bottom: 5px;
+        }
+
+        .bit-btn {
+            width: 60px;
+            height: 80px;
+            background-color: #001a33;
+            border: 2px solid #004466;
+            color: #336699;
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* 按鈕被啟動時的特效 */
+        .bit-btn.active {
+            background-color: #00ff88;
+            border-color: #00ff88;
+            color: #020b14;
+            box-shadow: 0 0 15px #00ff88;
+        }
+
+        #success-screen {
+            display: none;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .final-code {
+            font-size: 3em;
+            color: #ffd700; /* 勝利的金色 */
+            text-shadow: 0 0 20px #ffd700;
+            margin: 20px 0;
+            letter-spacing: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="game-screen">
+        <h1>CORE OVERRIDE // 核心覆寫</h1>
+        <p>你已抵達深海核心。系統被鎖死在最底層的機器語言。<br>請手動切換 8-bit 位元開關，產生共鳴頻率來解鎖核心。</p>
+        
+        <div class="dashboard">
+            <div class="target-freq">目標頻率: <span id="target-display">78</span> Hz</div>
+            <div class="current-freq">當前輸出: <span id="current-display">0</span> Hz</div>
+        </div>
+
+        <div class="bit-container">
+            <div class="bit-box">
+                <div class="bit-value">128</div>
+                <button class="bit-btn" onclick="toggleBit(this, 128)">0</button>
+            </div>
+            <div class="bit-box">
+                <div class="bit-value">64</div>
+                <button class="bit-btn" onclick="toggleBit(this, 64)">0</button>
+            </div>
+            <div class="bit-box">
+                <div class="bit-value">32</div>
+                <button class="bit-btn" onclick="toggleBit(this, 32)">0</button>
+            </div>
+            <div class="bit-box">
+                <div class="bit-value">16</div>
+                <button class="bit-btn" onclick="toggleBit(this, 16)">0</button>
+            </div>
+            <div class="bit-box">
+                <div class="bit-value">8</div>
+                <button class="bit-btn" onclick="toggleBit(this, 8)">0</button>
+            </div>
+            <div class="bit-box">
+                <div class="bit-value">4</div>
+                <button class="bit-btn" onclick="toggleBit(this, 4)">0</button>
+            </div>
+            <div class="bit-box">
+                <div class="bit-value">2</div>
+                <button class="bit-btn" onclick="toggleBit(this, 2)">0</button>
+            </div>
+            <div class="bit-box">
+                <div class="bit-value">1</div>
+                <button class="bit-btn" onclick="toggleBit(this, 1)">0</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="success-screen">
+        <h1>SYSTEM FULLY UNLOCKED</h1>
+        <p>太精彩了。你成功破解了所有防禦機制，抵達了系統的核心。</p>
+        <p>身為一名卓越的駭客，這是屬於你的最終榮耀代碼：</p>
+        <div class="final-code">NOWOB-MASTER</div>
+        <p>請將此代碼截圖交給主辦單位，領取你的獎勵！</p>
+    </div>
+
+    <script>
+        // 目標陣列：78(N), 79(O), 87(W), 79(O), 66(B)
+        const targets = [78, 79, 87, 79, 66];
+        let currentLevel = 0;
+        let currentSum = 0;
+
+        function toggleBit(btn, value) {
+            // 切換按鈕狀態 (0 或 1)
+            if (btn.innerText === "0") {
+                btn.innerText = "1";
+                btn.classList.add("active");
+                currentSum += value;
+            } else {
+                btn.innerText = "0";
+                btn.classList.remove("active");
+                currentSum -= value;
+            }
+
+            // 更新儀表板顯示
+            document.getElementById('current-display').innerText = currentSum;
+
+            // 檢查是否達成目標
+            if (currentSum === targets[currentLevel]) {
+                setTimeout(levelComplete, 300); // 延遲一下讓玩家看清楚
+            }
+        }
+
+        function levelComplete() {
+            currentLevel++;
+            
+            // 如果五關都過完了
+            if (currentLevel >= targets.length) {
+                document.getElementById('game-screen').style.display = 'none';
+                document.getElementById('success-screen').style.display = 'block';
+                return;
+            }
+
+            // 還沒過完，進入下一個數字
+            alert("【頻率共鳴成功】\n開啟下一道鎖...");
+            
+            // 重置所有按鈕
+            currentSum = 0;
+            document.getElementById('current-display').innerText = "0";
+            document.getElementById('target-display').innerText = targets[currentLevel];
+            
+            const btns = document.querySelectorAll('.bit-btn');
+            btns.forEach(btn => {
+                btn.innerText = "0";
+                btn.classList.remove("active");
+            });
+        }
+    </script>
+</body>
+</html>
