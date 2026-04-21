@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Kernel - File Intercepted</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #00ff41; /* 經典駭客綠 */
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            border: 2px solid #00ff41;
+            padding: 40px;
+            background: rgba(0, 255, 65, 0.05);
+            max-width: 600px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            position: relative;
+        }
+        /* 螢幕掃描線特效 */
+        .container::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+        h2 {
+            color: #ff3333; /* 警告紅 */
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+        .message {
+            line-height: 1.8;
+            font-size: 1.1em;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        .download-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            color: #0d0d0d;
+            background-color: #00ff41;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .download-btn:hover {
+            background-color: #ffffff;
+            box-shadow: 0 0 15px #ffffff;
+            transform: scale(1.05);
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>⚠ FILE INTERCEPTED ⚠</h2>
+        <div class="message">
+            從圖片似乎攔截到了一個程式碼。<br>
+            似乎是某個工程師在連續好幾晚工作後精神失常寫出來的，錯誤很多。<br>
+            但說不定修好會有下一關的線索？
+        </div>
+        
+        <a href="broken.cpp" class="download-btn" download>取得損壞的原始碼 (broken.cpp)</a>
+        
+        <div class="footer">
+        </div>
+    </div>
+</body>
+</html>
