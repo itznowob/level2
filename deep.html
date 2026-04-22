@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Core // 系統最深處</title>
+    <title>Deep Sea Core // 極限地獄核心</title>
     <style>
         body {
-            background-color: #020b14; /* 極深的海藍色 */
-            color: #80ccff; /* 淡藍色文字 */
+            background-color: #01060a;
+            color: #80ccff;
             font-family: 'Courier New', Courier, monospace;
             display: flex;
             justify-content: center;
@@ -18,13 +18,12 @@
             flex-direction: column;
         }
         
-        /* 深海聲納掃描特效 */
         body::after {
             content: "";
             position: absolute;
             width: 200vw;
             height: 200vh;
-            background: radial-gradient(circle, transparent 20%, #020b14 70%);
+            background: radial-gradient(circle, transparent 20%, #01060a 70%);
             pointer-events: none;
             z-index: 1;
         }
@@ -38,44 +37,56 @@
             border: 1px solid #004466;
             box-shadow: 0 0 30px rgba(0, 136, 255, 0.15);
             max-width: 800px;
+            width: 90%;
         }
 
         h1 {
             font-size: 2em;
             letter-spacing: 5px;
-            color: #80ccff;
-            text-shadow: 0 0 10px rgba(128, 204, 255, 0.5);
+            color: #ff3333;
+            text-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
             margin-bottom: 10px;
         }
 
         p {
             font-size: 1.1em;
             color: #66a3cc;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.5;
         }
 
-        /* 儀表板區域 */
+        /* 倒數計時器 */
+        #timer-box {
+            font-size: 1.8em;
+            color: #ff4d4d;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff4d4d;
+            display: none;
+        }
+
         .dashboard {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             margin-bottom: 30px;
             padding: 15px;
             background: #001a33;
             border-radius: 5px;
             font-size: 1.2em;
             font-weight: bold;
+            border: 1px solid #004466;
         }
 
-        .target-freq { color: #ff6666; } /* 警告紅稍微調暗 */
-        .current-freq { color: #80e6ff; } /* 取代原本的螢光綠 */
+        .target-freq { color: #80ccff; }
+        .interference { color: #ffcc00; }
+        .current-freq { color: #4db8ff; } 
 
-        /* 8-bit 按鈕區域 */
         .bit-container {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-bottom: 30px;
+            flex-wrap: wrap;
         }
 
         .bit-box {
@@ -99,16 +110,35 @@
             font-size: 2em;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.2s;
             font-family: 'Courier New', Courier, monospace;
         }
 
-        /* 按鈕被啟動時的特效：冰藍色取代螢光綠 */
         .bit-btn.active {
             background-color: #4db8ff;
             border-color: #80e6ff;
             color: #020b14;
             box-shadow: 0 0 20px rgba(77, 184, 255, 0.6);
+        }
+
+        /* 危險的確認寫入按鈕 */
+        .submit-btn {
+            background-color: transparent;
+            color: #ff4d4d;
+            border: 2px solid #ff4d4d;
+            padding: 15px 40px;
+            font-size: 1.5em;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .submit-btn:hover {
+            background-color: rgba(255, 77, 77, 0.2);
+            box-shadow: 0 0 15px #ff4d4d;
         }
 
         #success-screen {
@@ -124,7 +154,7 @@
 
         .final-code {
             font-size: 3em;
-            color: #ffd700; /* 勝利的金色 */
+            color: #ffd700;
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
             margin: 20px 0;
             letter-spacing: 10px;
@@ -140,12 +170,15 @@
 <body>
 
     <div class="container" id="game-screen">
-        <h1>CORE OVERRIDE // 核心覆寫</h1>
-        <p>恭喜你來到了第九關，但似乎還有一點解謎。<br>請手動切換 8-bit 位元開關，產生共鳴頻率來解鎖核心。</p>
+        <h1>CORE OVERRIDE // 系統受損</h1>
+        <p>警告：深海磁場引發邏輯異常，數值已完全隨機化。<br>輸入值將與「干擾金鑰」進行 <strong>XOR (^)</strong> 運算。<br>寫入錯誤或超時將導致核心重置。你有 30 秒。</p>
         
+        <div id="timer-box">⚠ 核心熔毀倒數: <span id="time-display">30</span>s ⚠</div>
+
         <div class="dashboard">
-            <div class="target-freq">目標頻率: <span id="target-display">67</span> Hz</div>
-            <div class="current-freq">當前輸出: <span id="current-display">0</span> Hz</div>
+            <div class="target-freq">目標: <span id="target-display">0</span></div>
+            <div class="interference">干擾(XOR): <span id="key-display">0</span></div>
+            <div class="current-freq">輸出: <span id="current-display">0</span></div>
         </div>
 
         <div class="bit-container">
@@ -158,11 +191,13 @@
             <div class="bit-box"><div class="bit-value">2</div><button class="bit-btn" onclick="toggleBit(this, 2)">0</button></div>
             <div class="bit-box"><div class="bit-value">1</div><button class="bit-btn" onclick="toggleBit(this, 1)">0</button></div>
         </div>
+
+        <button class="submit-btn" onclick="submitAnswer()">[ 寫入核心 ]</button>
     </div>
 
     <div class="container" id="success-screen">
-        <h1>SYSTEM FULLY UNLOCKED</h1>
-        <p>恭喜你完成了第九關!!!</p>
+        <h1 style="color:#4db8ff;">SYSTEM FULLY UNLOCKED</h1>
+        <p>太神了！你竟然在 30 秒內破解了隨機 XOR 陣列！</p>
         <p>第九個代碼是：<strong>s8KzL5</strong></p>
         <div class="final-code">Congrate!</div>
         <p>第十關的代碼可以回去觀察前面九個代碼，可能可以看出一點東西(?</p>
@@ -170,49 +205,95 @@
     </div>
 
     <script>
-        // 更新後的目標數字陣列
-        const targets = [67, 34, 122, 76, 66];
+        // 隨機產生 5 關的目標與干擾金鑰 (0 ~ 255)
+        const targets = [];
+        const keys = [];
+        for(let i = 0; i < 5; i++) {
+            targets.push(Math.floor(Math.random() * 256));
+            keys.push(Math.floor(Math.random() * 256));
+        }
+        
         let currentLevel = 0;
-        let currentSum = 0;
+        let currentRawSum = 0; 
+        
+        // 計時器變數 (改成 30 秒)
+        let timeLeft = 30;
+        let timerInterval;
+        let timerStarted = false;
+
+        // 初始化第一關畫面
+        document.getElementById('target-display').innerText = targets[0];
+        document.getElementById('key-display').innerText = keys[0];
+
+        function startTimer() {
+            document.getElementById('timer-box').style.display = 'block';
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('time-display').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("【系統崩潰】時間到！核心已熔毀，強制重啟！");
+                    location.reload(); 
+                }
+            }, 1000);
+        }
 
         function toggleBit(btn, value) {
+            if (!timerStarted) {
+                timerStarted = true;
+                startTimer();
+            }
+
             if (btn.innerText === "0") {
                 btn.innerText = "1";
                 btn.classList.add("active");
-                currentSum += value;
+                currentRawSum += value;
             } else {
                 btn.innerText = "0";
                 btn.classList.remove("active");
-                currentSum -= value;
+                currentRawSum -= value;
             }
 
-            document.getElementById('current-display').innerText = currentSum;
-
-            if (currentSum === targets[currentLevel]) {
-                setTimeout(levelComplete, 300);
-            }
+            let processedOutput = currentRawSum ^ keys[currentLevel];
+            document.getElementById('current-display').innerText = processedOutput;
         }
 
-        function levelComplete() {
-            currentLevel++;
-            
-            if (currentLevel >= targets.length) {
-                document.getElementById('game-screen').style.display = 'none';
-                document.getElementById('success-screen').style.display = 'block';
-                return;
+        // 確認寫入的無情判斷
+        function submitAnswer() {
+            if (!timerStarted) {
+                timerStarted = true;
+                startTimer();
             }
 
-            alert("開啟下一道鎖...");
-            
-            currentSum = 0;
-            document.getElementById('current-display').innerText = "0";
-            document.getElementById('target-display').innerText = targets[currentLevel];
-            
-            const btns = document.querySelectorAll('.bit-btn');
-            btns.forEach(btn => {
-                btn.innerText = "0";
-                btn.classList.remove("active");
-            });
+            let processedOutput = currentRawSum ^ keys[currentLevel];
+
+            if (processedOutput === targets[currentLevel]) {
+                // 算對了，進入下一關
+                currentLevel++;
+                
+                if (currentLevel >= targets.length) {
+                    clearInterval(timerInterval); 
+                    document.getElementById('game-screen').style.display = 'none';
+                    document.getElementById('success-screen').style.display = 'block';
+                    return;
+                }
+
+                currentRawSum = 0;
+                document.getElementById('current-display').innerText = "0"; 
+                document.getElementById('target-display').innerText = targets[currentLevel];
+                document.getElementById('key-display').innerText = keys[currentLevel];
+                
+                const btns = document.querySelectorAll('.bit-btn');
+                btns.forEach(btn => {
+                    btn.innerText = "0";
+                    btn.classList.remove("active");
+                });
+            } else {
+                // 算錯了，直接死亡重啟
+                clearInterval(timerInterval);
+                alert("【警告】數值錯誤！核心防禦機制已將你踢出系統！");
+                location.reload();
+            }
         }
     </script>
 </body>
