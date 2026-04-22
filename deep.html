@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Sea Core // 極限地獄核心</title>
+    <title>Deep Sea Core // 極限核心</title>
     <style>
         body {
             background-color: #01060a;
@@ -77,9 +77,8 @@
             border: 1px solid #004466;
         }
 
-        .target-freq { color: #80ccff; }
-        .interference { color: #ffcc00; }
-        .current-freq { color: #4db8ff; } 
+        .target-freq { color: #80ccff; font-size: 1.5em; }
+        .current-freq { color: #4db8ff; font-size: 1.5em; } 
 
         .bit-container {
             display: flex;
@@ -171,13 +170,12 @@
 
     <div class="container" id="game-screen">
         <h1>CORE OVERRIDE // 系統受損</h1>
-        <p>警告：深海磁場引發邏輯異常，數值已完全隨機化。<br>輸入值將與「干擾金鑰」進行 <strong>XOR (^)</strong> 運算。<br>寫入錯誤或超時將導致核心重置。你有 30 秒。</p>
+        <p>警告：核心不穩定，解鎖頻率已完全隨機化。<br>請在 30 秒內將目標頻率轉換為 8-bit 二進位並寫入。<br>寫入錯誤或超時將導致核心重置。</p>
         
         <div id="timer-box">⚠ 核心熔毀倒數: <span id="time-display">30</span>s ⚠</div>
 
         <div class="dashboard">
             <div class="target-freq">目標: <span id="target-display">0</span></div>
-            <div class="interference">干擾(XOR): <span id="key-display">0</span></div>
             <div class="current-freq">輸出: <span id="current-display">0</span></div>
         </div>
 
@@ -197,7 +195,7 @@
 
     <div class="container" id="success-screen">
         <h1 style="color:#4db8ff;">SYSTEM FULLY UNLOCKED</h1>
-        <p>太神了！你竟然在 30 秒內破解了隨機 XOR 陣列！</p>
+        <p>太神了！你竟然在 30 秒內極限通關了隨機二進位陣列！</p>
         <p>第九個代碼是：<strong>s8KzL5</strong></p>
         <div class="final-code">Congrate!</div>
         <p>第十關的代碼可以回去觀察前面九個代碼，可能可以看出一點東西(?</p>
@@ -205,25 +203,22 @@
     </div>
 
     <script>
-        // 隨機產生 5 關的目標與干擾金鑰 (0 ~ 255)
+        // 隨機產生 5 關的目標 (1 ~ 255)
         const targets = [];
-        const keys = [];
         for(let i = 0; i < 5; i++) {
-            targets.push(Math.floor(Math.random() * 256));
-            keys.push(Math.floor(Math.random() * 256));
+            targets.push(Math.floor(Math.random() * 255) + 1);
         }
         
         let currentLevel = 0;
-        let currentRawSum = 0; 
+        let currentSum = 0; 
         
-        // 計時器變數 (改成 30 秒)
+        // 計時器變數 (30 秒)
         let timeLeft = 30;
         let timerInterval;
         let timerStarted = false;
 
         // 初始化第一關畫面
         document.getElementById('target-display').innerText = targets[0];
-        document.getElementById('key-display').innerText = keys[0];
 
         function startTimer() {
             document.getElementById('timer-box').style.display = 'block';
@@ -239,6 +234,7 @@
         }
 
         function toggleBit(btn, value) {
+            // 按下第一顆按鈕時啟動倒數
             if (!timerStarted) {
                 timerStarted = true;
                 startTimer();
@@ -247,15 +243,14 @@
             if (btn.innerText === "0") {
                 btn.innerText = "1";
                 btn.classList.add("active");
-                currentRawSum += value;
+                currentSum += value;
             } else {
                 btn.innerText = "0";
                 btn.classList.remove("active");
-                currentRawSum -= value;
+                currentSum -= value;
             }
 
-            let processedOutput = currentRawSum ^ keys[currentLevel];
-            document.getElementById('current-display').innerText = processedOutput;
+            document.getElementById('current-display').innerText = currentSum;
         }
 
         // 確認寫入的無情判斷
@@ -265,9 +260,7 @@
                 startTimer();
             }
 
-            let processedOutput = currentRawSum ^ keys[currentLevel];
-
-            if (processedOutput === targets[currentLevel]) {
+            if (currentSum === targets[currentLevel]) {
                 // 算對了，進入下一關
                 currentLevel++;
                 
@@ -278,10 +271,10 @@
                     return;
                 }
 
-                currentRawSum = 0;
+                // 重置狀態，準備下一組數字
+                currentSum = 0;
                 document.getElementById('current-display').innerText = "0"; 
                 document.getElementById('target-display').innerText = targets[currentLevel];
-                document.getElementById('key-display').innerText = keys[currentLevel];
                 
                 const btns = document.querySelectorAll('.bit-btn');
                 btns.forEach(btn => {
